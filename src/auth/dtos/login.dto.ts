@@ -2,7 +2,7 @@ import { IsEmail, IsNotEmpty, IsString, isString, MinLength } from "class-valida
 
 export class LoginUserDto {
         @IsString()
-        @IsEmail({},{ message: "invalid email format"})
+        @IsEmail({},{ message: "invalid email"})
         @IsNotEmpty({ message:"email is required"})
         email: string;
 

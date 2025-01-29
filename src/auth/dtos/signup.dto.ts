@@ -8,7 +8,7 @@ export class SignupUserDto {
     username: string;
 
     @IsString()
-    @IsEmail({},{ message: "invalid email format"})
+    @IsEmail({},{ message: "invalid email"})
     @IsNotEmpty({ message:"email is required"})
     email: string;
 

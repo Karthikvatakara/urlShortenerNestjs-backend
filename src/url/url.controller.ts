@@ -33,6 +33,26 @@ export class UrlController {
         }
     }
 
+    
+    @UseGuards(JwtAuthGuard)
+    @Get('user-urls')
+    async getUrl(@Req() req: Request){
+        try{
+            
+            const userId = req.user.userId;
+            const urls = await this.urlService.getUserUrls(userId);
+            console.log(urls)
+            return { message: "urls fetched succesfully", urls}
+        }catch(error){
+            throw new HttpException(
+                'Failed to fetch URLs',
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        }
+    }
+
+
+    @UseGuards(JwtAuthGuard)
     @Get(':shortUrl')
     async redirectToOriginalUrl(@Param('shortUrl') shortUrl: string,@Res() res: Response) {
         try{
@@ -48,19 +68,4 @@ export class UrlController {
         }
     } 
 
-    @UseGuards(JwtAuthGuard)
-    @Get('user-urls')
-    async getUrl(@Req() req: Request){
-        try{
-            const userId = req.user.userId;
-            const urls = await this.urlService.getUserUrls(userId);
-            console.log(urls)
-            return { message: "urls fetched succesfully", urls}
-        }catch(error){
-            throw new HttpException(
-                'Failed to fetch URLs',
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
-        }
-    }
 }

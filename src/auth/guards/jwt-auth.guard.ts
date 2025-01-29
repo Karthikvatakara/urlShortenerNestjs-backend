@@ -10,6 +10,7 @@ export class JwtAuthGuard implements CanActivate {
         const req = context.switchToHttp().getRequest();
         const token = req.cookies['access_Token'];
 
+        console.log(token,"it is the token jwt auth guard")
         if(!token){
             throw new UnauthorizedException('user not authenticated')
         }
@@ -17,7 +18,7 @@ export class JwtAuthGuard implements CanActivate {
         try{
             const decoded = this.jwtService.verify(token,{ secret: process.env.JWT_KEY});
             req.user = decoded;
-            console.log(req.user)
+            console.log(req.user,"in jwt auth guard")
             return true;
         }catch(error){
             throw new UnauthorizedException('invalid or expired token')

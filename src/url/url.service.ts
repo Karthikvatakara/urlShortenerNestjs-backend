@@ -21,12 +21,11 @@ export class UrlService {
     }
 
     async getUserUrls(userId: string) {
-        const userUrls = await this.urlModel.find({ userId});
+        const userUrls = await this.urlModel.find({ userId }).sort({createdAt:-1});
         return userUrls
     }
 
     async findByShortUrl(shortUrl: string){
-        
         return await this.urlModel.findOne({ shortUrl })
     }
 }
