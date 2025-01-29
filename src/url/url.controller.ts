@@ -15,16 +15,15 @@ export class UrlController {
     async ShortenUrl(@Body() createUrlDto:CreateUrlDto,@Req() req: Request){
         try{
             const userId = req.user.userId;
+            
             const shortendUrl = await this.urlService.createShortUrl(
                 createUrlDto.originalUrl,
                 userId);
-            const baseUrl = process.env.BASE_URL;
-
-            const shortUrl = `${baseUrl}/${shortendUrl.shortUrl}`;
+          
 
             return { 
                 message:"url shortend succesfully",
-                shortUrl};
+                shortUrl: shortendUrl.shortUrl};
         }catch(error){
             throw new HttpException(
                 'Failed to shorten URL',

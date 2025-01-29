@@ -9,7 +9,12 @@ export class UrlService {
     constructor(@InjectModel(Url.name) private urlModel: Model<Url>){}
 
     async createShortUrl(originalUrl: string,userId:string) {
-        const shortUrl = shortid.generate();
+        const shortendUrl = shortid.generate();
+
+
+        const baseUrl = process.env.BASE_URL;
+
+        const shortUrl = `${baseUrl}/${shortendUrl}`;
 
         const newUrl = new this.urlModel({
             originalUrl,
