@@ -18,6 +18,7 @@ export class AuthController {
     res.cookie('access_Token', result.token,{
         httpOnly: true,
         maxAge: 36000*1000,
+        sameSite: "none"
     })
     res.json({message: result.message, user: result.user})
   }
@@ -30,7 +31,8 @@ export class AuthController {
 
     res.cookie('access_Token',result.token,{
         httpOnly: true,
-        maxAge: 3600*1000
+        maxAge: 3600*1000,
+        sameSite: "none"
     })
 
     res.json({ message: result.message , user: result.user})
