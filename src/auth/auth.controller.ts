@@ -17,8 +17,10 @@ export class AuthController {
 
     res.cookie('access_Token', result.token,{
         httpOnly: true,
+        secure:true,
         maxAge: 36000*1000,
-        sameSite: "none"
+        sameSite: "none",
+        path:'/'
     })
     res.json({message: result.message, user: result.user})
   }
@@ -26,13 +28,15 @@ export class AuthController {
   @Post('login')
   @HttpCode(200)
   async login(@Body() user: LoginUserDto,  @Res() res: Response){
-    console.log(user,"afjahkjfhakjhdfk")
+
     const result =  await this.authService.login(user);
 
     res.cookie('access_Token',result.token,{
         httpOnly: true,
+        secure:true,
         maxAge: 3600*1000,
-        sameSite: "none"
+        sameSite: "none",
+        path: '/'
     })
 
     res.json({ message: result.message , user: result.user})
@@ -42,7 +46,12 @@ export class AuthController {
   @HttpCode(200)
   async logout( @Res() res: Response) {
       const result =  await this.authService.logout()
-      res.clearCookie('access_Token');
+      res.clearCookie('access_Token',{
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        path: '/'
+      });
       res.json({ message: result.message})
   }
 

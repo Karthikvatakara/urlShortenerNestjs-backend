@@ -10,12 +10,19 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(cookieParser());
-  console.log(process.env.URL,"URLAFHJGHAJFDHJAGFGHAFGHJASFG")
+
   app.enableCors({
     origin: [process.env.URL],
     credentials: true,
     methods : ['GET','POST','PUT','DELETE'],
-    allowedHeaders: ['Content-Type','Authorization']
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'Accept',
+      'Origin',
+       'X-Requested-with'
+      ],
+    exposedHeaders:['Set-Cookie']
   });
 
   app.useGlobalPipes(new ValidationPipe({
