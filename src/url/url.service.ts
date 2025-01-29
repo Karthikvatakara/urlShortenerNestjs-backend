@@ -9,13 +9,14 @@ export class UrlService {
     constructor(@InjectModel(Url.name) private urlModel: Model<Url>){}
 
     async createShortUrl(originalUrl: string,userId:string) {
-        const shortendUrl = shortid.generate();
+        const shortCode = shortid.generate();
 
 
         const baseUrl = process.env.BASE_URL;
 
-        const shortUrl = `${baseUrl}/${shortendUrl}`;
+        const shortUrl = `${baseUrl}/${shortCode}`;
 
+        console.log("🚀 ~ UrlService ~ createShortUrl ~ shortUrl:", shortUrl)
         const newUrl = new this.urlModel({
             originalUrl,
             shortUrl,
@@ -30,7 +31,11 @@ export class UrlService {
         return userUrls
     }
 
-    async findByShortUrl(shortUrl: string){
-        return await this.urlModel.findOne({ shortUrl })
+    async findByShortUrl(shortCode: string){
+        const baseUrl = process.env.BASE_URL;
+
+        const fullShortUrl = `${baseUrl}/${shortCode}`
+        const result = await this.urlModel.findOne({ shortUrl:fullShortUrl })
+        return result
     }
 }

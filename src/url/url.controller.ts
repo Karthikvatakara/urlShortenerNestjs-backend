@@ -23,7 +23,7 @@ export class UrlController {
 
             return { 
                 message:"url shortend succesfully",
-                shortUrl: shortendUrl.shortUrl};
+                shortUrl: shortendUrl.shortUrl };
         }catch(error){
             throw new HttpException(
                 'Failed to shorten URL',
@@ -50,8 +50,7 @@ export class UrlController {
         }
     }
 
-
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get(':shortUrl')
     async redirectToOriginalUrl(@Param('shortUrl') shortUrl: string,@Res() res: Response) {
         try{
@@ -60,7 +59,7 @@ export class UrlController {
             if(!urlData){
                 throw new HttpException('short url not found',HttpStatus.NOT_FOUND)
             }
-            console.log(urlData)
+           
             return res.redirect(urlData.originalUrl)
         }catch(error){
             throw new HttpException('redirection failed',HttpStatus.INTERNAL_SERVER_ERROR)
